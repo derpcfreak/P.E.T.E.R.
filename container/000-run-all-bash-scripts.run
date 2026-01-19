@@ -1,0 +1,30 @@
+#!/bin/bash
+# run all .bash scripts in current folder in alphabetical order
+# check SELinux status. We can only work, if we are NOT Enforcing
+
+# source variables from ./machine.variables
+if [ ! -f "./machine.variables" ]; then
+        echo -e "[\033[0;31mFAIL\033[0m] configuration file 'machine.variables' is missing. Will exit."
+        exit
+else
+        source ./machine.variables
+        echo -e "[\033[1;32m OK \033[0m] configuration file 'machine.variables' is present."
+fi
+
+for script in "./"*.bash; do
+  echo -e "${LIGHTBLUE}$script${NC}"
+  if [ "$script" == "./001-create-machine.bash" ] && [ "$(getenforce)" == "Enforcing" ];then
+   setenforce permissive
+   echo "temporarely setting SELinux to permissive"
+   # execute successfully or break (exit the for loop)
+   /bin/bash "$script" || break  # execute successfully or break
+   setenforce enforcing
+   echo "setting back SELinux to enforcing"
+  else
+   # execute successfully or break (exit the for loop)
+   /bin/bash "$script" || break  # execute successfully or break
+  fi
+done
+
+# always make sure SELinux is set to enforcing at the end!
+setenforce enforcing

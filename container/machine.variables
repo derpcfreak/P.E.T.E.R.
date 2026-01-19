@@ -1,0 +1,59 @@
+#############################################
+### MAKE SURE ALL VARIABLES ARE UPPERCASE ###
+#############################################
+
+# The use account with uid 1000 on this host
+# that has sudo privileges. This is important
+# to have correct permissions for the samba
+# files
+ADMINUSER='pxeadm'
+
+# Name of the machine
+MACHINE='pxe-container'
+
+# where to place the downloaded image
+OUTFILE="./files/${MACHINE}.tar.gz"
+
+# Colors for scripts
+RED='\033[0;31m'        # RED
+LIGHTGREEN='\033[1;32m' # LIGHT GREEN
+LIGHTBLUE='\033[1;34m'  # LIGHT BLUE
+YELLOW='\033[0;33m'     # YELLOW
+NC='\033[0m'            # No Color
+
+#############################################
+# for PXE Server
+#############################################
+PXEIFACE='pxe0'
+LANIFACE='lan0'
+
+# Netboot source files
+NBSOURCEFILES='files/ubuntu-24.04.2-netboot-amd64.tar.gz'
+
+# bindmounts on host (not in machine)
+# used for nspawn file!
+BM_WIN2SAMBA='/data/win2samba'
+BM_TUXFILES='/data/tuxfiles'
+BM_WINFILES='/data/winfiles'
+
+# grub.cfg
+GRUBCFG='files/grub.cfg'
+
+# grub splash image
+GRUBSPLASH='files/00_grubsplash.png'
+
+# dhcpd.conf
+DHCPCFG='files/dnsmasq-dhcpd.conf'
+
+# sambacheck.bash
+SAMBACHECK='files/sambacheck.bash'
+
+# crontab
+CRONTAB='files/crontab'
+
+# timezone
+TIMEZONE='Europe/Berlin'        # HQ Germany
+#TIMEZONE='US/Central'          # Chicago/US
+#TIMEZONE='GMT'                 # UK
+#TIMEZONE='Europe/London'       # UK London with summer/wintertime changes
+#TIMEZONE='Australia/NSW'       # Australia
