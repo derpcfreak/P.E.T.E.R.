@@ -99,9 +99,8 @@ mkdir -p "${BM_WIN2SAMBA}" 2>/dev/null
 mkdir -p "${BM_TUXFILES}" 2>/dev/null
 mkdir -p "${BM_WINFILES}" 2>/dev/null
 
-# create the symbolic link (must be relative) for win2samba.iso
+# create the folder for the windows related files (ISOs)
 mkdir "${BM_WINFILES}/0000-cloud-init/" 2>/dev/null
-ln -s '../../win2samba/boot/win2samba.iso' "${BM_WINFILES}/0000-cloud-init/win2samba.iso" 2>/dev/null
 
 # set correct permissions for local folders
 # We assume, that user 'liadm' has uid=1000
