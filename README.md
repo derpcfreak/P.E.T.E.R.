@@ -13,7 +13,7 @@
   <tbody>
     <tr>
       <td valign="top">
-        <b>P.E.T.E.R.</b> will do a fully automated install of Win 11 using <b>Linux</b><br>in under 20 minutes:<br><br>- Secure Boot<br>- partition target disk<br>- download drivers from Microsoft Catalog and cache them<br>- inject drivers<br>- fix Win boot loaders if UEFI already has new MS keys
+        <b>P.E.T.E.R.</b> will do a fully automated install of Win 11 using <b>Linux</b> in under 20 minutes:<br><br>- Secure Boot<br>- partition target disk<br>- download drivers from Microsoft Catalog and cache them<br>- inject drivers<br>- fix Win boot loaders if UEFI already has new MS keys
       </td>
       <td valign="top">
         <img width="500" src="docs/peter-logo-inkscape.png">
