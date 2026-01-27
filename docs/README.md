@@ -1,1 +1,1 @@
-To view the above HTML file (a TiddlyWiki) directly in your browser [click here]([https://raw.githubusercontent.com/derpcfreak/P.E.T.E.R./main/docs/P.E.T.E.R.html](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./c71e973e020197aab09becb02fc9748200a7dfc3/docs/P.E.T.E.R.html))
+To view the above HTML file (a TiddlyWiki) directly in your browser [click here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./c71e973e020197aab09becb02fc9748200a7dfc3/docs/P.E.T.E.R.html)
