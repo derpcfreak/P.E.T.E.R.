@@ -22,7 +22,7 @@
   </tbody>
 </table>
 
-The [documentation](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./c71e973e020197aab09becb02fc9748200a7dfc3/docs/P.E.T.E.R.html) (a TiddlyWiki) is part of this repository and you can show/use it directly in your browser by [clicking here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./c71e973e020197aab09becb02fc9748200a7dfc3/docs/P.E.T.E.R.html).<br>
+The [documentation](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./0217695f2d2ead9225d97cdd99c5923b329a18ae/docs/P.E.T.E.R.html) (a TiddlyWiki) is part of this repository and you can show/use it directly in your browser by [clicking here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./0217695f2d2ead9225d97cdd99c5923b329a18ae/docs/P.E.T.E.R.html).<br>
 The source of the docs is stored in [docs](docs).
 
 **Below is a visualization of the pxe setup process:**
