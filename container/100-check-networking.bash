@@ -1,10 +1,18 @@
 #!/bin/bash
+#shellcheck disable=SC2016
 # source variables
 if [ ! -f "./machine.variables" ]; then
 	echo "configuration file 'machine.variables' is missing. Will exit."
 	exit
 else
 	source ./machine.variables
+fi
+
+# for this script the machine must not be running!
+# check if machine is already running. If so quit
+if eval machinectl --no-legend --value list | grep -q "${MACHINE}"; then
+ echo -e "[${RED}FAIL${NC}] machine '${MACHINE}' is running. Script will quit here! Use 'machinectl stop ${MACHINE}' first."
+ exit
 fi
 
 # prerequisites to check before creating a
@@ -15,7 +23,7 @@ fi
 ###################################################################
 runinside='ip -oneline -tshort -echo -brief link | awk "{print $1}"'
 result=$(systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE} /bin/bash -c "${runinside};exit")
-if ! grep -q "^$PXEIFACE" <<< ${result};then
+if ! grep -q "^$PXEIFACE" <<< "${result}";then
  echo -e "[${RED}FAIL${NC}] Interface '$PXEIFACE' was present in machine."
  echo "Interface '$PXEIFACE' not found inside machine. Please read the documentation!"
  echo "The host should map the card used for the PXE network as '$PXEIFACE' into the machine."
@@ -32,7 +40,7 @@ unset result
 ###################################################################
 runinside='ip -oneline -tshort -echo -brief link | awk "{print $1}"'
 result=$(systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE} /bin/bash -c "${runinside};exit")
-if ! grep -q "$LANIFACE" <<< ${result};then
+if ! grep -q "$LANIFACE" <<< "${result}";then
  echo -e "[${RED}FAIL${NC}] Interface '$LANIFACE' was present in machine."
  echo "Interface '$LANIFACE' not found inside machine. Please read the documentation!"
  echo "The host should map the card used for the uplink LAN network as '$LANIFACE' into the machine."
@@ -50,7 +58,7 @@ unset result
 checkurl='https://www.cloudflare.com'
 runinside="curl -Is ${checkurl} | head -n 1 | grep '^HTTP' | awk '{print $2}'"
 result=$(systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE} /bin/bash -c "${runinside};exit")
-if ! $(grep -q '200' <<<"$result")
+if ! grep -q '200' <<<"$result"
 then
         echo -e "[${RED}FAIL${NC}] could not reach  ${checkurl} - no internet?"
 	exit

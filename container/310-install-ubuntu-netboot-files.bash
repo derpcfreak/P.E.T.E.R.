@@ -7,6 +7,13 @@ else
 	source ./machine.variables
 fi
 
+# machine must not be running to execute this script
+# check if machine is already running. If so quit
+if eval machinectl --no-legend --value list | grep -q "${MACHINE}"; then
+ echo -e "[${RED}FAIL${NC}] machine '${MACHINE}' is running. Script will quit here! Use 'machinectl stop ${MACHINE}' first."
+ exit
+fi
+
 ###################################################################
 # install Ubuntu netboot files
 #  - bindmount ./files/ubuntu-24.04.2-netboot-amd64.tar.gz as /tmp/netboot.tar.gz
@@ -16,7 +23,7 @@ fi
 #  - /var/lib/tftpboot/pxe must already by present!
 ###################################################################
 
-systemd-nspawn --quiet --settings=false --bind-ro="${NBSOURCEFILES}":/tmp/netboot.tar.gz:norbind -D /var/lib/machines/${MACHINE}/ /bin/bash -c "
+if ! systemd-nspawn --quiet --settings=false --bind-ro="${NBSOURCEFILES}":/tmp/netboot.tar.gz:norbind -D /var/lib/machines/${MACHINE}/ /bin/bash -c "
 	tar xzf /tmp/netboot.tar.gz -C /var/lib/tftpboot/pxe/ >/dev/null
 	# fix for the 'revocations.efi' error message
 	# This is only a cosmetic fix to not show an error message.
@@ -25,9 +32,7 @@ systemd-nspawn --quiet --settings=false --bind-ro="${NBSOURCEFILES}":/tmp/netboo
 	# that bootx64.efi (copied to revocations.efi - 945K) is loaded a second time.
 	if [ ! -f /var/lib/tftpboot/pxe/amd64/revocations.efi ]; then cp /var/lib/tftpboot/pxe/amd64/bootx64.efi /var/lib/tftpboot/pxe/amd64/revocations.efi;fi
 	exit
-"
-
-if [ $? -ne 0 ];then
+";then
 	echo -e "[${RED}FAIL${NC}] Ubuntu netboot files installation failed (machine). Will exit."
 else
 	echo -e "[${LIGHTGREEN} OK ${NC}] Ubuntu netboot files prepared (machine)."

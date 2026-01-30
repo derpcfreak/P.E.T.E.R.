@@ -7,6 +7,13 @@ else
 	source ./machine.variables
 fi
 
+# machine must not be running to execute this script
+# check if machine is already running. If so quit
+if eval machinectl --no-legend --value list | grep -q "${MACHINE}"; then
+ echo -e "[${RED}FAIL${NC}] machine '${MACHINE}' is running. Script will quit here! Use 'machinectl stop ${MACHINE}' first."
+ exit
+fi
+
 ###################################################################
 # configure samba server inside machine
 ###################################################################
@@ -26,11 +33,9 @@ systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE} /bin/bas
 "
 
 # checks
-systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE} /bin/bash -c "
+if ! systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE} /bin/bash -c "
 	grep -q win2samba /etc/passwd && grep -q smb /usr/lib/systemd/system/smb.service
-"
-
-if [ $? -ne 0 ];then
+";then
 	echo -e "[${RED}FAIL${NC}] enabling SAMBA server for autostart and user creation failed (machine). Will exit."
 else
 	echo -e "[${LIGHTGREEN} OK ${NC}] enabled SAMBA server for autostart and created win2samba user (machine)."
@@ -70,12 +75,10 @@ read -r -d '' smbconf <<-'EOF'
         #hosts allow = 192.168.0.1/24,192.168.124.100/24
 EOF
 
-systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE}/ /bin/bash -c "
+if ! systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE}/ /bin/bash -c "
 	echo \"${smbconf}\" >/etc/samba/smb.conf
 	exit
-"
-
-if [ $? -ne 0 ];then
+";then
 	echo -e "[${RED}FAIL${NC}] custom SAMBA server config failed (machine). Will exit."
 else
 	echo -e "[${LIGHTGREEN} OK ${NC}] custom SAMBA server config applied (machine)."

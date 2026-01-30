@@ -7,6 +7,13 @@ else
 	source ./machine.variables
 fi
 
+# machine must not be running to execute this script
+# check if machine is already running. If so quit
+if eval machinectl --no-legend --value list | grep -q "${MACHINE}"; then
+ echo -e "[${RED}FAIL${NC}] machine '${MACHINE}' is running. Script will quit here! Use 'machinectl stop ${MACHINE}' first."
+ exit
+fi
+
 # mkdir /var/lib/tftpboot/pxe/amd64-web
 # cd /var/lib/tftpboot/pxe/
 # cp amd64/initrd amd64-web/initrd
@@ -21,7 +28,7 @@ fi
 #  link /var/www/html/amd64 to /var/lib/tftpboot/pxe/amd64-web
 #  link /var/www/html/amd64-web/tuxfiles to /bindmounts/tuxfiles
 #  link /bindmounts/winfiles /var/www/html/amd64-web/winfiles to /bindmounts/winfiles
-systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE}/ /bin/bash -c "
+if ! systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE}/ /bin/bash -c "
 	mkdir -p /var/lib/tftpboot/pxe/amd64-web 2>/dev/null
 	sed -i -e 's@^\(Listen\).*@\1 192.168.124.1:80@g' /etc/httpd/conf/httpd.conf
 	ln -s -f /usr/lib/systemd/system/httpd.service /etc/systemd/system/multi-user.target.wants/httpd.service
@@ -31,9 +38,7 @@ systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE}/ /bin/ba
 	ln -s -f -T /bindmounts/tuxfiles /var/www/html/amd64-web/tuxfiles
 	ln -s -f -T /bindmounts/winfiles /var/www/html/amd64-web/winfiles
 	exit
-"
-
-if [ $? -ne 0 ];then
+";then
 	echo -e "[${RED}FAIL${NC}] enabling HTTP server for autostart and configuring failed (machine). Will exit."
 else
 	echo -e "[${LIGHTGREEN} OK ${NC}] enabled HTTP server for autostart and configured it (machine)."

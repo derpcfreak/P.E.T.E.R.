@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#shellcheck disable=SC2064
 # variables
 # check SELinux status. We can only work, if we are NOT Enforcing
 if [ "$(getenforce)" == "Enforcing" ]; then
@@ -28,14 +28,14 @@ timedatectl set-local-rtc 0
 echo -e "[${LIGHTGREEN} OK ${NC}] timezone on this host has been set to ${TIMEZONE}"
 
 # check if machine is already running. If so quit
-if $(machinectl --no-legend --value list | grep -q ${MACHINE}); then
+if eval machinectl --no-legend --value list | grep -q "${MACHINE}"; then
  echo -e "[${RED}FAIL${NC}] machine '${MACHINE}' is running. Script will quit here! Use 'machinectl stop ${MACHINE}' first."
  exit
 fi
 
 
 # create almalinux systemd-container
-# if ! exists and has a size greater than zero
+# -s means non-existent or empty size
 if [ ! -s "$OUTFILE" ]; then
  # remove folder if ctrlc is pressed
  trap "rm -r -f /var/lib/machines/${MACHINE};exit" SIGINT
@@ -44,9 +44,9 @@ if [ ! -s "$OUTFILE" ]; then
  trap - SIGINT # remove trap
  echo "done"
  # create backup of the container
- trap "rm -f "${OUTFILE}";exit" SIGINT
+ trap "rm -f '${OUTFILE}';exit" SIGINT
  importctl --class=machine export-tar ${MACHINE} "${OUTFILE}"
- while [[ $(importctl list-transfers | grep -q '^No.transfers') ]]; do echo "ongoing transfer...";done
+ until importctl list-transfers | grep -q '^No.transfers' ; do echo "ongoing transfer...";done
  trap - SIGINT # remove trap
 fi
 
@@ -58,7 +58,7 @@ if [ -s "$OUTFILE" ]; then
  then
 	importctl --class=machine import-tar "${OUTFILE}" ${MACHINE}
    	# Do something knowing the pid exists, i.e. the process with $PID is running
-        while [[ $(importctl list-transfers | grep -q '^No.transfers') ]]
+	until importctl list-transfers | grep -q '^No.transfers'
 	do
 	 echo "import still ongoing..."
 	done

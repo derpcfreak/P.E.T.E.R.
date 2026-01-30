@@ -7,6 +7,13 @@ else
 	source ./machine.variables
 fi
 
+# machine must not be running to execute this script
+# check if machine is already running. If so quit
+if eval machinectl --no-legend --value list | grep -q "${MACHINE}"; then
+ echo -e "[${RED}FAIL${NC}] machine '${MACHINE}' is running. Script will quit here! Use 'machinectl stop ${MACHINE}' first."
+ exit
+fi
+
 ###################################################################
 # create a script in /etc/profile.de to set bash prompt color
 ###################################################################
@@ -64,13 +71,10 @@ PS1="${ORANGE_BG}${BLACK_FG} \u@\h:\w ${RESET_ALL}\\$ "
 export PROMPT_COMMAND_ORANGE_DONE=1
 EOF
 
-if systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE}/ /bin/bash -c "
+if ! systemd-nspawn --quiet --settings=false -D /var/lib/machines/${MACHINE}/ /bin/bash -c "
 	echo \"${bashprompt}\" >/etc/profile.d/prompt-orange.sh
 	exit
-"
-
-#if [ $? -ne 0 ];then
-then
+";then
 	echo -e "[${RED}FAIL${NC}] setting orange bash prompt failed."
 else
 	echo -e "[${LIGHTGREEN} OK ${NC}] setting orange bash prompt succeeded."
