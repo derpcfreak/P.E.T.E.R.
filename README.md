@@ -25,9 +25,9 @@
 **Demo: a full installation of Windows 11 in 20 minutes**
 
 <a href="https://youtu.be/59mnLVbViOk" target="_blank">
- <img src="https://i9.ytimg.com/vi_webp/59mnLVbViOk/mqdefault.webp?v=697b770c&sqp=CJzu7csG&rs=AOn4CLA9VyDRRTXgj_tIMKoy-OvyKJiK-A">
+ <img src="https://github.com/user-attachments/assets/de118dec-b755-4cfc-9f9c-622aed1cd0ed">
  <br>Watch full video
-</a>[https://youtu.be/59mnLVbViOk](https://youtu.be/59mnLVbViOk)
+</a>
 <br><br>
 
 The [documentation](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./0217695f2d2ead9225d97cdd99c5923b329a18ae/docs/P.E.T.E.R.html) (a TiddlyWiki) is part of this repository and you can show/use it directly in your browser by [clicking here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./0217695f2d2ead9225d97cdd99c5923b329a18ae/docs/P.E.T.E.R.html).<br>
