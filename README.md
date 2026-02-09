@@ -30,7 +30,7 @@
 </a>
 <br><br>
 
-The [documentation](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./0217695f2d2ead9225d97cdd99c5923b329a18ae/docs/P.E.T.E.R.html) (a TiddlyWiki) is part of this repository and you can show/use it directly in your browser by [clicking here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./0217695f2d2ead9225d97cdd99c5923b329a18ae/docs/P.E.T.E.R.html).<br>
+The [documentation](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./96244cda9a0b1bf6e89f858dde6ebee77c387892/docs/P.E.T.E.R.html) (a TiddlyWiki) is part of this repository and you can show/use it directly in your browser by [clicking here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./96244cda9a0b1bf6e89f858dde6ebee77c387892/docs/P.E.T.E.R.html).<br>
 The source of the docs is stored in [docs](docs).
 
 **Below is a visualization of the pxe setup process:**
@@ -123,5 +123,5 @@ machinectl enable pxe-container
 Connect a client to the `pxe0` interface and initiate a network boot. (System requirements client side: UEFI boot, 8GB RAM).
 
 
-The full documentation can be found [here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./0217695f2d2ead9225d97cdd99c5923b329a18ae/docs/P.E.T.E.R.html) (a TiddlyWiki) is part of this repository and you can show/use it directly in your browser by [clicking here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./0217695f2d2ead9225d97cdd99c5923b329a18ae/docs/P.E.T.E.R.html).<br>
+The full documentation can be found [here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./96244cda9a0b1bf6e89f858dde6ebee77c387892/docs/P.E.T.E.R.html) (a TiddlyWiki) is part of this repository and you can show/use it directly in your browser by [clicking here](https://rawcdn.githack.com/derpcfreak/P.E.T.E.R./96244cda9a0b1bf6e89f858dde6ebee77c387892/docs/P.E.T.E.R.html).<br>
 
