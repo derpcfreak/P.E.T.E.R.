@@ -22,6 +22,14 @@ fi
 # All UPPERCASE variables have been sourced from ${machine.variables} #
 #######################################################################
 
+# check if dnf command is available
+if command -v dnf >/dev/null 2>&1; then
+    echo -e "[${LIGHTGREEN} OK ${NC}] dnf command is present"
+else
+    echo -e "[${RED}FAIL${NC}] dnf command is not present. Please install it with your package manager"
+    exit
+fi
+
 # set timezone for localhost (this will be reflected into the container)
 timedatectl set-timezone "${TIMEZONE}"
 timedatectl set-local-rtc 0
@@ -40,7 +48,16 @@ if [ ! -s "$OUTFILE" ]; then
  # remove folder if ctrlc is pressed
  trap "rm -r -f /var/lib/machines/${MACHINE};exit" SIGINT
  echo -n "creating a fresh almalinux systemd-machine in /var/lib/machines/${MACHINE} ..."
- dnf install -y -c /etc/yum.repos.d/almalinux-baseos.repo --releasever=10.1 --repo=baseos --best --installroot=/var/lib/machines/${MACHINE} --setopt=install_weak_deps=False almalinux-release dnf glibc-langpack-en yum dnf rootfiles systemd shadow-utils util-linux passwd vim-minimal iproute iputils less hostname >/dev/null 2>&1
+ dnf install \
+	 -y \
+	 -c ./files/dnf.conf \
+	 --releasever=10 \
+	 --repo=baseos \
+	 --best \
+	 --installroot=/var/lib/machines/${MACHINE} \
+	 --setopt=install_weak_deps=False \
+	 almalinux-release dnf glibc-langpack-en yum dnf rootfiles systemd shadow-utils util-linux passwd vim-minimal iproute iputils less hostname \
+	 >/dev/null 2>&1
  trap - SIGINT # remove trap
  echo "done"
  # create backup of the container
