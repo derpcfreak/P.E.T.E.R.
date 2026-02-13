@@ -4,7 +4,11 @@
 
 # Custom orange prompt for interactive shells only
 if [[ $- == *i* ]]; then
-    export PS1="\[\e[48;5;208m\e[30m\][\u@\h \W]\$\[\e[0m\] "
+	if [ "$UID" -eq 0 ]; then
+		export PS1="\[\e[48;5;208m\e[30m\][\u@\h \W]#\[\e[0m\] " # # prompt
+	else
+		export PS1="\[\e[48;5;208m\e[30m\][\u@\h \W]$\[\e[0m\] " # $ prompt
+	fi
 fi
 
 # Don’t clobber if user deliberately disables or sets their own PS1 later
